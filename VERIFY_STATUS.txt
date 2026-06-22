@@ -1,0 +1,51 @@
+BUILD_RC=1
+----INSTALL TAIL----
+npm warn deprecated next@14.2.5: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+
+added 109 packages in 25s
+----BUILD TAIL----
+Retrying 3/3...
+Failed to fetch font `Playfair Display`.
+URL: https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400..900&display=swap
+
+Please check if the network is available.
+
+Retrying 3/3...
+Error [NextFontError]: Failed to fetch font `Poppins`.
+URL: https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap
+
+Please check if the network is available.
+    at nextFontError (/tmp/v/node_modules/next/dist/compiled/@next/font/dist/next-font-error.js:8:17)
+    at /tmp/v/node_modules/next/dist/compiled/@next/font/dist/google/fetch-css-from-google-fonts.js:58:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async retry (/tmp/v/node_modules/next/dist/compiled/@next/font/dist/google/retry.js:11:12)
+    at async fetchCSSFromGoogleFonts (/tmp/v/node_modules/next/dist/compiled/@next/font/dist/google/fetch-css-from-google-fonts.js:38:23)
+    at async nextFontGoogleFontLoader (/tmp/v/node_modules/next/dist/compiled/@next/font/dist/google/loader.js:76:15)
+    at async Span.traceAsyncFn (/tmp/v/node_modules/next/dist/trace/trace.js:154:20)
+    at async /tmp/v/node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js:76:87
+    at async Span.traceAsyncFn (/tmp/v/node_modules/next/dist/trace/trace.js:154:20)
+Error [NextFontError]: Failed to fetch font `Playfair Display`.
+URL: https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400..900&display=swap
+
+Please check if the network is available.
+    at nextFontError (/tmp/v/node_modules/next/dist/compiled/@next/font/dist/next-font-error.js:8:17)
+    at /tmp/v/node_modules/next/dist/compiled/@next/font/dist/google/fetch-css-from-google-fonts.js:58:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async retry (/tmp/v/node_modules/next/dist/compiled/@next/font/dist/google/retry.js:11:12)
+    at async fetchCSSFromGoogleFonts (/tmp/v/node_modules/next/dist/compiled/@next/font/dist/google/fetch-css-from-google-fonts.js:38:23)
+    at async nextFontGoogleFontLoader (/tmp/v/node_modules/next/dist/compiled/@next/font/dist/google/loader.js:76:15)
+    at async Span.traceAsyncFn (/tmp/v/node_modules/next/dist/trace/trace.js:154:20)
+    at async /tmp/v/node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js:76:87
+    at async Span.traceAsyncFn (/tmp/v/node_modules/next/dist/trace/trace.js:154:20)
+Failed to compile.
+
+app/layout.tsx
+`next/font` error:
+Failed to fetch `Playfair Display` from Google Fonts.
+
+app/layout.tsx
+`next/font` error:
+Failed to fetch `Poppins` from Google Fonts.
+
+
+> Build failed because of webpack errors

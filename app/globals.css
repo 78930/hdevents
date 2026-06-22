@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Base + brand defaults
+--------------------------------------------------------------------------- */
+:root {
+  --ring: #c79a2f; /* gold */
+}
+
+html {
+  scroll-behavior: smooth;        /* smooth in-page anchor scrolling */
+  scroll-padding-top: 5rem;       /* offset for the fixed navbar */
+}
+
+body {
+  @apply bg-blush-50 text-forest-900 font-sans antialiased;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@layer components {
+  /* Section width + rhythm */
+  .container-px { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+  .section { @apply py-20 sm:py-28; }
+
+  /* Small uppercase gold label above headings */
+  .eyebrow {
+    @apply inline-block text-xs font-semibold uppercase tracking-[0.2em] text-gold-600;
+  }
+
+  /* Section heading */
+  .h-section {
+    @apply font-serif text-3xl font-bold leading-tight text-forest-800 sm:text-4xl md:text-5xl;
+  }
+
+  /* Primary gold button */
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold-sheen bg-[length:200%_100%] px-7 py-3.5 text-sm font-semibold text-forest-900 shadow-lift transition-all duration-300 hover:animate-shimmer hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2;
+  }
+
+  /* Outline / ghost button (works on dark hero) */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/70 px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-white hover:text-forest-900 focus:outline-none focus:ring-2 focus:ring-white;
+  }
+
+  /* WhatsApp-styled button */
+  .btn-whatsapp {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-6 py-3 text-sm font-semibold text-white shadow-card transition-transform duration-200 hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-whatsapp focus:ring-offset-2;
+  }
+
+  /* Form inputs */
+  .input {
+    @apply w-full rounded-xl border border-blush-200 bg-blush-50/40 px-4 py-3 text-sm text-forest-900 placeholder:text-forest-900/40 focus:border-gold-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold-300;
+  }
+}
+
+/* Masonry columns for the gallery (CSS columns = simple, robust masonry) */
+.masonry {
+  column-gap: 1rem;
+}
+.masonry > * { break-inside: avoid; margin-bottom: 1rem; }
