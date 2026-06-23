@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Icon from "./Icon";
 import { site } from "@/content/site";
 import { buildWhatsAppLink, DEFAULT_WHATSAPP_MESSAGE } from "@/lib/whatsapp";
@@ -10,7 +11,6 @@ const links = [
   { href: "#services", label: "Services" },
   { href: "#gallery", label: "Gallery" },
   { href: "#why", label: "Why Us" },
-  { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -36,10 +36,15 @@ export default function Navbar() {
     >
       <nav className="container-px flex h-20 items-center justify-between">
         {/* Brand */}
-        <a href="#home" className="flex items-center gap-2 text-white">
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-gold-sheen font-serif text-lg font-bold text-forest-900">
-            HD
-          </span>
+        <a href="#gallery" className="flex items-center gap-2 text-white">
+          <Image
+            src="/happy events logo.jpeg"
+            alt="Happy Days Events logo"
+            width={48}
+            height={48}
+            className="rounded-full object-cover"
+            priority
+          />
           <span className="font-serif text-lg font-semibold leading-none">
             {site.brandShort}
             <span className="block text-[10px] font-sans font-normal uppercase tracking-[0.2em] text-gold-300">

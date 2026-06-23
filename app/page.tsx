@@ -1,24 +1,25 @@
+import { readGallery } from "@/lib/gallery";
 import Hero from "@/components/sections/Hero";
 import Services from "@/components/sections/Services";
 import Gallery from "@/components/sections/Gallery";
 import WhyChooseUs from "@/components/sections/WhyChooseUs";
-import About from "@/components/sections/About";
 import Testimonials from "@/components/sections/Testimonials";
 import Contact from "@/components/sections/Contact";
 
-/**
- * Home — single-scroll conversion page.
- * Each block is a self-contained section component (easy to reorder or split
- * into dedicated routes later). The Navbar links are in-page anchors.
- */
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const galleryItems = await readGallery();
+  const heroImages = galleryItems
+    .filter((item) => !item.type || item.type === "image")
+    .map((item) => item.src);
+
   return (
     <>
-      <Hero />
+      <Gallery items={galleryItems} />
       <Services />
-      <Gallery />
+      <Hero images={heroImages} />
       <WhyChooseUs />
-      <About />
       <Testimonials />
       <Contact />
     </>

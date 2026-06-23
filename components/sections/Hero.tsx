@@ -1,56 +1,69 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Icon from "../Icon";
 import { site } from "@/content/site";
 import { buildWhatsAppLink, DEFAULT_WHATSAPP_MESSAGE } from "@/lib/whatsapp";
 
-/**
- * HERO — full-bleed dark image background with subtle parallax, an animated
- * headline, and the two primary CTAs.
- *
- * IMAGE: uses a placeholder background. Replace the `backgroundImage` URL with
- * your flyer/hero shot (or drop a file in /public/hero.jpg and use "/hero.jpg").
- * For a VIDEO background, swap the div for a <video> per the README note.
- */
-export default function Hero() {
+const FALLBACK = "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1600&q=80";
+const INTERVAL = 4500;
+
+export default function Hero({ images = [] }: { images?: string[] }) {
+  const slides = images.length > 0 ? images : [FALLBACK];
+  const [current, setCurrent] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
-  // Parallax: background drifts slower than the scroll for depth.
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
+
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
   const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  // Word-by-word reveal for the kicker headline ("Planning For An Event")
+  // Auto-advance slideshow
+  useEffect(() => {
+    if (slides.length <= 1) return;
+    const id = setInterval(() => setCurrent((c) => (c + 1) % slides.length), INTERVAL);
+    return () => clearInterval(id);
+  }, [slides.length]);
+
   const words = site.hero.headlineKicker.split(" ");
 
   return (
     <section
       id="home"
       ref={ref}
-      className="relative flex min-h-[100svh] items-center overflow-hidden"
+      className="relative flex min-h-[80vh] items-center overflow-hidden"
     >
-      {/* Parallax background image (PLACEHOLDER — swap for real hero/flyer) */}
-      <motion.div
-        aria-hidden
-        style={{ y: bgY }}
-        className="absolute inset-0 -z-20 scale-110 bg-cover bg-center"
-      >
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1600&q=80')",
-          }}
-        />
-      </motion.div>
+      {/* Slideshow backgrounds */}
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={current}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+          className="absolute inset-0 -z-20"
+        >
+          {slides[current].startsWith("http") ? (
+            <div
+              className="absolute inset-0 scale-110 bg-cover bg-center"
+              style={{ backgroundImage: `url('${slides[current]}')` }}
+            />
+          ) : (
+            <Image
+              src={slides[current]}
+              alt=""
+              fill
+              priority={current === 0}
+              className="object-cover scale-110"
+              sizes="100vw"
+            />
+          )}
+        </motion.div>
+      </AnimatePresence>
 
-      {/* Dark elegant overlay (flyer feel) */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-forest-950/85 via-forest-900/80 to-forest-950/95" />
+      {/* Dark overlay */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-forest-950/80 via-forest-900/75 to-forest-950/92" />
 
       {/* Content */}
       <motion.div
@@ -66,7 +79,6 @@ export default function Hero() {
           {site.tagline}
         </motion.p>
 
-        {/* Animated kicker headline */}
         <h1 className="mt-4 font-serif text-4xl font-bold leading-tight text-white sm:text-6xl md:text-7xl">
           <span className="mb-2 block overflow-hidden">
             {words.map((w, i) => (
@@ -100,7 +112,6 @@ export default function Hero() {
           {site.hero.sub}
         </motion.p>
 
-        {/* Two primary CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -125,16 +136,22 @@ export default function Hero() {
         </p>
       </motion.div>
 
-      {/* Scroll cue */}
-      <motion.div
-        style={{ opacity: fade }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70"
-        aria-hidden
-      >
-        <div className="flex h-9 w-6 items-start justify-center rounded-full border border-white/40 p-1">
-          <span className="h-2 w-1 animate-float rounded-full bg-white/70" />
+      {/* Slide dots */}
+      {slides.length > 1 && (
+        <div className="absolute bottom-16 left-1/2 flex -translate-x-1/2 gap-2">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => setCurrent(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === current ? "w-6 bg-gold-300" : "w-1.5 bg-white/40"
+              }`}
+            />
+          ))}
         </div>
-      </motion.div>
+      )}
+
     </section>
   );
 }

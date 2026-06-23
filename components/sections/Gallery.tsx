@@ -4,31 +4,21 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import Icon from "../Icon";
-import {
-  gallery,
-  galleryFilters,
-  type GalleryCategory,
-  type GalleryItem,
-} from "@/content/gallery";
+import { galleryFilters, type GalleryCategory, type GalleryItem } from "@/content/gallery";
 
 type Filter = GalleryCategory | "all";
 
-/**
- * THEME GALLERY — filterable masonry grid with a lightbox.
- * Images are PLACEHOLDERS labelled in their titles; swap `src` in
- * content/gallery.ts for real photos.
- */
-export default function Gallery() {
+export default function Gallery({ items }: { items: GalleryItem[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [active, setActive] = useState<GalleryItem | null>(null);
 
-  const items = useMemo(
-    () => (filter === "all" ? gallery : gallery.filter((g) => g.category === filter)),
-    [filter]
+  const filtered = useMemo(
+    () => (filter === "all" ? items : items.filter((g) => g.category === filter)),
+    [filter, items]
   );
 
   return (
-    <section id="gallery" className="section bg-white">
+    <section id="gallery" className="bg-white pt-24 pb-20 sm:pt-28 sm:pb-28">
       <div className="container-px">
         <div className="max-w-2xl">
           <span className="eyebrow">Our Work</span>
@@ -56,13 +46,10 @@ export default function Gallery() {
           ))}
         </div>
 
-        {/* Masonry (CSS columns) */}
-        <motion.div
-          layout
-          className="masonry mt-8 columns-2 lg:columns-3"
-        >
+        {/* Masonry grid */}
+        <motion.div layout className="masonry mt-8 columns-2 lg:columns-3">
           <AnimatePresence>
-            {items.map((item) => (
+            {filtered.map((item) => (
               <motion.button
                 key={item.id}
                 layout
@@ -73,14 +60,32 @@ export default function Gallery() {
                 onClick={() => setActive(item)}
                 className="group relative block w-full overflow-hidden rounded-xl shadow-card focus:outline-none focus:ring-2 focus:ring-gold-500"
               >
-                <Image
-                  src={item.src}
-                  alt={item.title}
-                  width={800}
-                  height={item.tall ? 1000 : 700}
-                  className="h-auto w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                {/* Placeholder label overlay */}
+                {item.type === "video" ? (
+                  <video
+                    src={item.src}
+                    muted
+                    playsInline
+                    preload="metadata"
+                    className="h-auto w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <Image
+                    src={item.src}
+                    alt={item.title}
+                    width={800}
+                    height={item.tall ? 1000 : 700}
+                    className="h-auto w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                )}
+
+                {/* Video play badge */}
+                {item.type === "video" && (
+                  <span className="absolute top-2 left-2 flex items-center gap-1 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-semibold text-white">
+                    ▶ VIDEO
+                  </span>
+                )}
+
+                {/* Title on hover */}
                 <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-forest-950/80 to-transparent p-3 text-left text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">
                   {item.title}
                 </span>
@@ -110,6 +115,7 @@ export default function Gallery() {
             >
               <Icon name="close" />
             </button>
+
             <motion.figure
               initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -117,13 +123,22 @@ export default function Gallery() {
               onClick={(e) => e.stopPropagation()}
               className="max-h-[85vh] max-w-4xl overflow-hidden rounded-2xl"
             >
-              <Image
-                src={active.src}
-                alt={active.title}
-                width={1200}
-                height={900}
-                className="h-auto max-h-[78vh] w-auto object-contain"
-              />
+              {active.type === "video" ? (
+                <video
+                  src={active.src}
+                  controls
+                  autoPlay
+                  className="max-h-[78vh] w-auto"
+                />
+              ) : (
+                <Image
+                  src={active.src}
+                  alt={active.title}
+                  width={1200}
+                  height={900}
+                  className="h-auto max-h-[78vh] w-auto object-contain"
+                />
+              )}
               <figcaption className="bg-forest-900 p-3 text-center text-sm text-blush-100">
                 {active.title}
               </figcaption>

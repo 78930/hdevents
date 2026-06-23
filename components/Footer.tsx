@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Icon from "./Icon";
 import { site } from "@/content/site";
 import { buildWhatsAppLink, DEFAULT_WHATSAPP_MESSAGE } from "@/lib/whatsapp";
@@ -39,9 +40,13 @@ export default function Footer() {
         <div className="container-px grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-gold-sheen font-serif font-bold text-forest-900">
-                HD
-              </span>
+              <Image
+                src="/happy events logo.jpeg"
+                alt="Happy Days Events logo"
+                width={40}
+                height={40}
+                className="rounded-full object-cover"
+              />
               <span className="font-serif text-lg font-semibold text-white">
                 {site.brandShort}
               </span>

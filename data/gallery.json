@@ -1,0 +1,36 @@
+[
+  {
+    "id": "g1",
+    "title": "Wedding Stage Decor",
+    "category": "weddings",
+    "src": "/gallery/happyent.jpeg",
+    "type": "image",
+    "tall": true,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "g2",
+    "title": "Sunflower Haldi Arch",
+    "category": "decor",
+    "src": "/gallery/happyent1.jpeg",
+    "type": "image",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "g3",
+    "title": "Anayra's First Birthday",
+    "category": "birthdays",
+    "src": "/gallery/happyent2.jpeg",
+    "type": "image",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "g4",
+    "title": "Traditional Ceremony Setup",
+    "category": "decor",
+    "src": "/gallery/happyent3.jpeg",
+    "type": "image",
+    "tall": true,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  }
+]

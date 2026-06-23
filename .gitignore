@@ -6,3 +6,5 @@
 *.log
 .env*.local
 next-env.d.ts
+
+.vercel

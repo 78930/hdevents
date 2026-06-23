@@ -2,10 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    // Allow the placeholder image host. Replace/extend when the client adds a CDN or Sanity.
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "cdn.sanity.io" },
+      // Vercel Blob storage for uploaded gallery images
+      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
     ],
   },
 };
